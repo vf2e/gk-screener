@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+# 二进制资源
+*.png binary
+*.ico binary
+*.icns binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.woff binary
+*.woff2 binary
+
+# 打包与构建产物
+node_modules/ export-ignore
+dist/ export-ignore
+src-tauri/target/ export-ignore

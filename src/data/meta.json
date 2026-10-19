@@ -1,0 +1,318 @@
+{
+  "2026": {
+    "beijing": {
+      "name": "北京",
+      "count": 747,
+      "size": 752439
+    },
+    "tianjin": {
+      "name": "天津",
+      "count": 221,
+      "size": 188716
+    },
+    "hebei": {
+      "name": "河北",
+      "count": 1030,
+      "size": 831510
+    },
+    "shanxi": {
+      "name": "山西",
+      "count": 547,
+      "size": 443855
+    },
+    "neimenggu": {
+      "name": "内蒙古",
+      "count": 714,
+      "size": 662932
+    },
+    "liaoning": {
+      "name": "辽宁",
+      "count": 814,
+      "size": 667236
+    },
+    "jilin": {
+      "name": "吉林",
+      "count": 559,
+      "size": 550586
+    },
+    "heilongjiang": {
+      "name": "黑龙江",
+      "count": 617,
+      "size": 513100
+    },
+    "shanghai": {
+      "name": "上海",
+      "count": 489,
+      "size": 438589
+    },
+    "jiangsu": {
+      "name": "江苏",
+      "count": 936,
+      "size": 800759
+    },
+    "zhejiang": {
+      "name": "浙江",
+      "count": 754,
+      "size": 631626
+    },
+    "anhui": {
+      "name": "安徽",
+      "count": 551,
+      "size": 424142
+    },
+    "fujian": {
+      "name": "福建",
+      "count": 679,
+      "size": 589206
+    },
+    "jiangxi": {
+      "name": "江西",
+      "count": 553,
+      "size": 479868
+    },
+    "shandong": {
+      "name": "山东",
+      "count": 1234,
+      "size": 1087724
+    },
+    "henan": {
+      "name": "河南",
+      "count": 1117,
+      "size": 828340
+    },
+    "hubei": {
+      "name": "湖北",
+      "count": 785,
+      "size": 642780
+    },
+    "hunan": {
+      "name": "湖南",
+      "count": 712,
+      "size": 510304
+    },
+    "guangdong": {
+      "name": "广东",
+      "count": 1869,
+      "size": 1716504
+    },
+    "guangxi": {
+      "name": "广西",
+      "count": 748,
+      "size": 726421
+    },
+    "hainan": {
+      "name": "海南",
+      "count": 235,
+      "size": 228775
+    },
+    "chongqing": {
+      "name": "重庆",
+      "count": 401,
+      "size": 314862
+    },
+    "sichuan": {
+      "name": "四川",
+      "count": 981,
+      "size": 771005
+    },
+    "guizhou": {
+      "name": "贵州",
+      "count": 323,
+      "size": 264076
+    },
+    "yunnan": {
+      "name": "云南",
+      "count": 1083,
+      "size": 960637
+    },
+    "xizang": {
+      "name": "西藏",
+      "count": 202,
+      "size": 265560
+    },
+    "shaanxi": {
+      "name": "陕西",
+      "count": 456,
+      "size": 372961
+    },
+    "gansu": {
+      "name": "甘肃",
+      "count": 361,
+      "size": 298220
+    },
+    "qinghai": {
+      "name": "青海",
+      "count": 216,
+      "size": 183922
+    },
+    "ningxia": {
+      "name": "宁夏",
+      "count": 134,
+      "size": 112858
+    },
+    "xinjiang": {
+      "name": "新疆",
+      "count": 646,
+      "size": 658173
+    }
+  },
+  "2027": {
+    "beijing": {
+      "name": "北京",
+      "count": 675,
+      "size": 692467
+    },
+    "tianjin": {
+      "name": "天津",
+      "count": 183,
+      "size": 173714
+    },
+    "hebei": {
+      "name": "河北",
+      "count": 959,
+      "size": 847174
+    },
+    "shanxi": {
+      "name": "山西",
+      "count": 614,
+      "size": 548873
+    },
+    "neimenggu": {
+      "name": "内蒙古",
+      "count": 787,
+      "size": 763504
+    },
+    "liaoning": {
+      "name": "辽宁",
+      "count": 726,
+      "size": 625829
+    },
+    "jilin": {
+      "name": "吉林",
+      "count": 498,
+      "size": 517748
+    },
+    "heilongjiang": {
+      "name": "黑龙江",
+      "count": 588,
+      "size": 522855
+    },
+    "shanghai": {
+      "name": "上海",
+      "count": 428,
+      "size": 404517
+    },
+    "jiangsu": {
+      "name": "江苏",
+      "count": 926,
+      "size": 806243
+    },
+    "zhejiang": {
+      "name": "浙江",
+      "count": 732,
+      "size": 695283
+    },
+    "anhui": {
+      "name": "安徽",
+      "count": 702,
+      "size": 590651
+    },
+    "fujian": {
+      "name": "福建",
+      "count": 686,
+      "size": 649967
+    },
+    "jiangxi": {
+      "name": "江西",
+      "count": 646,
+      "size": 588083
+    },
+    "shandong": {
+      "name": "山东",
+      "count": 1223,
+      "size": 1094547
+    },
+    "henan": {
+      "name": "河南",
+      "count": 1066,
+      "size": 853676
+    },
+    "hubei": {
+      "name": "湖北",
+      "count": 791,
+      "size": 690997
+    },
+    "hunan": {
+      "name": "湖南",
+      "count": 584,
+      "size": 468370
+    },
+    "guangdong": {
+      "name": "广东",
+      "count": 1516,
+      "size": 1482856
+    },
+    "guangxi": {
+      "name": "广西",
+      "count": 628,
+      "size": 645176
+    },
+    "hainan": {
+      "name": "海南",
+      "count": 263,
+      "size": 277334
+    },
+    "chongqing": {
+      "name": "重庆",
+      "count": 284,
+      "size": 232668
+    },
+    "sichuan": {
+      "name": "四川",
+      "count": 823,
+      "size": 685834
+    },
+    "guizhou": {
+      "name": "贵州",
+      "count": 215,
+      "size": 202660
+    },
+    "yunnan": {
+      "name": "云南",
+      "count": 1187,
+      "size": 1120374
+    },
+    "xizang": {
+      "name": "西藏",
+      "count": 149,
+      "size": 134880
+    },
+    "shaanxi": {
+      "name": "陕西",
+      "count": 357,
+      "size": 332640
+    },
+    "gansu": {
+      "name": "甘肃",
+      "count": 386,
+      "size": 340140
+    },
+    "qinghai": {
+      "name": "青海",
+      "count": 179,
+      "size": 167558
+    },
+    "ningxia": {
+      "name": "宁夏",
+      "count": 137,
+      "size": 122935
+    },
+    "xinjiang": {
+      "name": "新疆",
+      "count": 488,
+      "size": 567872
+    }
+  },
+  "other2026": 0,
+  "other2027": 0
+}
