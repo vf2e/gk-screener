@@ -7,7 +7,7 @@
 ## 功能
 
 - **内置数据集**：2026 年度国考（20714 个职位）与 2027 年度招考简章（19426 个职位）**全量**，按 31 个省份拆分打包，切换省份时才按需加载对应的数据块
-- **报考省份切换**：顶栏「年份 + 省份」两个下拉，默认 2026 年度 · 湖北
+- **报考省份切换**：顶栏「年份 + 省份」两个下拉，默认 **2027 年度 · 湖北**
 - **导入自己的职位表**：支持 `.xls / .xlsx / .csv / .tsv`，自动跳过说明行定位表头，按中文列名（部门名称 / 用人司局 / 招考职位 / 专业 / 学历 …）映射字段
 - **多维筛选**
   - 学历（严格遵循「以最高学历报考」：仅限本科的岗位，硕士不能以本科学历报考）
@@ -41,13 +41,20 @@
 ## 主题与图标
 
 - 界面默认**浅色主题**（`index.html` 不带 `dark` class）。`src/index.css` 里保留了 `.dark` 变量组，需要深色时给 `<html>` 加上 `class="dark"` 即可。
-- 图标源文件是项目根目录的 **`icon.png`**（1024×1024）。要换图标，替换该文件后执行：
+- 图标源文件是项目根目录的 **`eye-exam.png`**。要换图标，替换该文件后执行：
 
 ```bash
-npx tauri icon icon.png
+npx tauri icon eye-exam.png
 ```
 
-会重新生成 `src-tauri/icons/` 下的全部尺寸（含 `icon.ico`、`icon.icns`、Windows Square 系列）。
+会重新生成 `src-tauri/icons/` 下的全部尺寸（`icon.ico`、`icon.icns`、Windows Square 系列等）。
+
+> ⚠️ 注意：`tauri-build` 不会因为图标文件变化而自动重新生成 Windows 资源，换图后如果直接 `npm run tauri build`，exe 里仍是旧图标。必须强制重建一次主 crate：
+>
+> ```bash
+> cd src-tauri && cargo clean -p job-screener && cd ..
+> npm run tauri build
+> ```
 
 ## 开发
 

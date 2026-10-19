@@ -66,7 +66,7 @@ const EXPORT_HEADERS = [
 ];
 
 export default function App() {
-  const [year, setYear] = useState<YearKey>("2026");
+  const [year, setYear] = useState<YearKey>("2027");
   const [province, setProvince] = useState("hubei");
   const [builtinJobs, setBuiltinJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
