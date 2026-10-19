@@ -31,11 +31,24 @@ fn cell_to_string(cell: &Data) -> String {
     }
 }
 
-/// 解析 .xls / .xlsx，自动跳过说明行定位表头
+/// 表头行判定：命中足够多的关键列名，且该行有足够多的非空单元格。
+/// 只靠“包含职位二字”会误判——简章第 1 行提示语里就同时有“招考职位”“专业”“学历”。
+fn is_header_row(row: &[String]) -> bool {
+    const KEYS: [&str; 7] = ["部门名称", "用人司局", "招考职位", "职位代码", "招考人数", "专业", "学历"];
+    let joined = row.join("");
+    let hits = KEYS.iter().filter(|k| joined.contains(*k)).count();
+    let non_empty = row.iter().filter(|c| !c.trim().is_empty()).count();
+    hits >= 3 && non_empty >= 5
+}
+
+/// 解析 .xls / .xlsx，自动跳过说明行定位表头，并合并所有工作表的数据行
 #[tauri::command]
 fn parse_spreadsheet(path: String) -> Result<SheetData, String> {
     let mut workbook = open_workbook_auto(&path).map_err(|e| format!("打开表格失败: {e}"))?;
     let names = workbook.sheet_names().to_vec();
+
+    let mut merged_headers: Vec<String> = Vec::new();
+    let mut merged_rows: Vec<Vec<String>> = Vec::new();
 
     for name in names {
         let range = match workbook.worksheet_range(&name) {
@@ -50,37 +63,38 @@ fn parse_spreadsheet(path: String) -> Result<SheetData, String> {
             continue;
         }
 
-        // 找表头行：同时包含"职位"与（部门 / 用人 / 学历）的那一行
-        let header_index = all.iter().position(|row| {
-            let joined = row.join("");
-            joined.contains("职位") && (joined.contains("部门") || joined.contains("用人") || joined.contains("学历"))
-        });
-
-        let Some(hi) = header_index else { continue };
-
+        let Some(hi) = all.iter().position(|row| is_header_row(row)) else {
+            continue;
+        };
         let headers = all[hi].clone();
-        let mut rows: Vec<Vec<String>> = all
-            .into_iter()
-            .skip(hi + 1)
-            .filter(|row| row.iter().any(|c| !c.trim().is_empty()))
-            .collect();
 
-        if rows.is_empty() {
+        // 以第一个命中的工作表为列基准，列数不一致的工作表跳过（避免错位）
+        if merged_headers.is_empty() {
+            merged_headers = headers.clone();
+        } else if headers.len() != merged_headers.len() {
             continue;
         }
 
-        // 对齐列宽，避免短行导致索引越界
-        let width = headers.len();
-        for row in rows.iter_mut() {
+        let width = merged_headers.len();
+        for mut row in all.into_iter().skip(hi + 1) {
+            if row.iter().all(|c| c.trim().is_empty()) {
+                continue;
+            }
             if row.len() < width {
                 row.resize(width, String::new());
             }
+            merged_rows.push(row);
         }
-
-        return Ok(SheetData { headers, rows });
     }
 
-    Err("未找到可识别的职位表（表头需包含“职位”以及“部门/用人司局/学历”等列）".into())
+    if merged_headers.is_empty() || merged_rows.is_empty() {
+        return Err("未找到可识别的职位表（表头需包含“部门名称/用人司局/招考职位/招考人数”等列）".into());
+    }
+
+    Ok(SheetData {
+        headers: merged_headers,
+        rows: merged_rows,
+    })
 }
 
 #[tauri::command]
@@ -147,14 +161,54 @@ mod tests {
     }
 
     #[test]
+    fn header_row_detection_ignores_notice_line() {
+        // 简章第 1 行是说明文字，含“招考职位”“专业”“学历”，不能被当成表头
+        let notice = vec![
+            "招考职位由招录机关编报，招录专业、学历等与职位资格条件相关的问题，由招录机关负责解释。".to_string(),
+        ];
+        assert!(!is_header_row(&notice), "说明行被误判为表头");
+
+        let header: Vec<String> = [
+            "部门代码", "部门名称", "用人司局", "机构性质", "招考职位", "职位属性", "职位分布",
+            "职位简介", "职位代码", "机构层级", "考试类别", "招考人数", "专业", "学历", "学位",
+            "政治面貌", "基层工作最低年限", "服务基层项目工作经历", "是否在面试阶段组织专业能力测试",
+            "面试人员比例", "工作地点", "落户地点", "备注", "部门网站", "咨询电话1", "咨询电话2",
+            "咨询电话3",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
+        assert!(is_header_row(&header), "标准表头未被识别");
+    }
+
+    #[test]
     fn parses_real_guokao_xls() {
         let Some(path) = sample_xls() else {
             eprintln!("跳过：未找到示例 xls 文件");
             return;
         };
         let data = parse_spreadsheet(path).expect("解析简体职位表失败");
-        assert!(data.headers.iter().any(|h| h.contains("职位")), "表头应包含职位列");
-        assert!(data.rows.len() > 1000, "应当解析出上千行职位，实际 {}", data.rows.len());
+
+        // 表头必须落在真正的列名行上，而不是第 1 行的说明文字
+        assert!(
+            data.headers.len() >= 20,
+            "表头列数异常（可能是说明行被当成表头）：{}",
+            data.headers.len()
+        );
+        for key in ["部门名称", "用人司局", "招考职位", "职位代码", "招考人数", "专业"] {
+            assert!(
+                data.headers.iter().any(|h| h.contains(key)),
+                "表头缺少关键列：{key}"
+            );
+        }
+        assert_eq!(data.headers.first().map(|s| s.as_str()), Some("部门代码"));
+
+        // 首行数据应当是真实岗位，不能再出现列名
+        assert!(
+            !data.rows[0].iter().any(|c| c == "用人司局"),
+            "首行数据仍是表头，说明表头行定位偏移"
+        );
+        assert!(data.rows.len() > 19000, "应当合并全部工作表（约 19426 行），实际 {}", data.rows.len());
         assert!(data.rows.iter().any(|r| r.iter().any(|c| c.contains("税务局"))));
         eprintln!("解析成功：{} 列 / {} 行", data.headers.len(), data.rows.len());
     }
